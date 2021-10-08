@@ -14,6 +14,11 @@
     "elastic-builder": "^2.4.0",
     "elasticsearch": "^16.4.0"
   },
+  "homepage": "https://github.com/rtcexpert/queuetoelastic",
+  "bugs": {
+    "url": "https://github.com/rtcexpert/queuetoelastic/issues",
+    "email": "rrpathak007@gmail.com"
+  },
   "keywords": [
     "bull",
     "queue",
