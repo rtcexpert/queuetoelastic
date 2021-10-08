@@ -1,6 +1,6 @@
 {
   "name": "queuetoelastic",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "This will do queue and insert to Elsastic",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,11 @@
     "elastic-builder": "^2.4.0",
     "elasticsearch": "^16.4.0"
   },
+  "keywords": [
+    "bull",
+    "queue",
+    "elasticsearch"
+  ],
   "author": "Rahul Pathak",
-  "license": "ISC"
+  "license": "MIT"
 }
