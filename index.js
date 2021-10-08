@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 var bullQueue = require('bull')
 const uuidv4 = require('uuid/v4');
 const EventEmitter = require('events');
+const getElasticSearchClient = require("./getElasticSearchClient");
 dotenv.config({ path: process.env.ENV_PATH || '.env' });
 var { REDIS_HOST = 'localhost', REDIS_PORT = 6379, ELASTIC_INDEX_NAME = "", ELASTIC_INDEX_TYPE = "", ELASTIC_SEARCH_URL = "" } = process.env;
 
@@ -67,7 +68,9 @@ class queuetoelastic extends EventEmitter {
       {
         throw new Error("Elastic Search Config Not Define.");
       }
-      
+
+      this.es = await getElasticSearchClient(this.elasticSearchURL);
+
       console.log(`the Queue Name is ${this.mQueueName}`);
       this.jobQueue = new bullQueue(this.mQueueName, tRedisObject);
       this.listenerQEvents();
@@ -115,13 +118,8 @@ class queuetoelastic extends EventEmitter {
             tData = job.data.data;
           }
           // console.log(JSON.stringify(tData, null, 2));
-          console.log(`this.ELASTIC_SEARCH_URL -> ${_this.elasticSearchURL}`)
-          console.log(`this.ELASTIC_INDEX_NAME -> ${_this.elasticSearchIndexName}`)
-          console.log(`this.ELASTIC_INDEX_TYPE -> ${_this.elasticSearchType}`)
-          const getElasticSearchClient = require("./getElasticSearchClient");
-          const es = await getElasticSearchClient(_this.elasticSearchURL);
           try {
-            let tMP = await es.bulk({
+            let tMP = await _this.es.bulk({
                 body: [
                     { index:  { _index: _this.elasticSearchIndexName, _type: _this.elasticSearchType, _id: uuidv4() } },
                     tData
